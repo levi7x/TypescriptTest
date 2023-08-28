@@ -6,22 +6,19 @@ function App() {
   const [from, setFrom] = useState<string | null>(null);
   const [to, setTo] = useState<string | null>(null);
 
-  const onDateSelect = (date: string | null) => {
-    setFrom(date);
-  }
+  const onDateSelect = (selectedFrom: string | null) => {
+    setFrom(selectedFrom);
+  };
 
   return (
-    <>
-      <Box sx={{ width: "50vh", margin: "auto" }}>
-        <h1 style={{ marginLeft: 160 }}>Hi</h1>
-        <OfDateRangePicker onDateChange={onDateSelect} />
-
-        <Box sx={{ ml: "55px", mt: "120px", width: "1000px" }}>
-          <Typography>FROM: {from}</Typography>
-          <Typography>TO: {to}</Typography>
-        </Box>
+    <Box sx={{ width: "50vh", margin: "auto" }}>
+      <h1 style={{ marginLeft: 160 }}>Hi</h1>
+      <OfDateRangePicker onFromDateChange={onDateSelect} />
+      <Box sx={{ ml: "55px", mt: "120px", width: "1000px" }}>
+        <Typography>FROM: {from}</Typography>
+        <Typography>TO: {to}</Typography>
       </Box>
-    </>
+    </Box>
   );
 }
 
