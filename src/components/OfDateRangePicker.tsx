@@ -1,4 +1,4 @@
-import { Box, Stack } from "@mui/material";
+import { Box, Divider, Stack } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Dayjs } from "dayjs";
@@ -38,37 +38,58 @@ const OfDateRangePicker = (props: IProps) => {
   
     return (
       <>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <Box sx={{ border: "solid 2px red", width: 600 }}>
-            <Stack flexDirection="row" sx={{ width: "50hw" }} alignItems="center" justifyContent="center">
-              <DatePicker
-                label={"From"}
-                value={selectedFromDate}
-                onChange={handleFromDateChange}
-                format={FORMAT}
-                slotProps={{
-                  textField: {
-                    onClick: () => setIsCalendarOpen(true),
-                  },
-                }}
-                disableOpenPicker
-              />
-              <DatePicker
-                label={"To"}
-                value={selectedToDate}
-                onChange={handleToDateChange}
-                format={FORMAT}
-                slotProps={{
-                  textField: {
-                    onClick: () => setIsCalendarOpen(true),
-                  },
-                }}
-                disableOpenPicker
-              />
-            </Stack>
-            <OfDateRangeCalendar open={isCalendarOpen} onClose={handleCalendarClose} onChangeFromDate={handleFromDateChange} onChangeToDate={handleToDateChange} />
-          </Box>
-        </LocalizationProvider>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <Stack sx={{ width: "50vh", margin: "auto", position: "relative" }}>
+        {/* Date Pickers */}
+        <Stack direction="row" spacing={0.5} alignItems="center" justifyContent="center">
+          {/* Date Picker 1 */}
+          <DatePicker
+            label={"From"}
+            value={selectedFromDate}
+            onChange={handleFromDateChange}
+            format={FORMAT}
+            slotProps={{
+              textField: {
+                onClick: () => setIsCalendarOpen(true),
+              },
+            }}
+            disableOpenPicker
+            maxDate={selectedToDate ?? undefined}
+          />
+
+          {/* Divider */}
+          <Divider orientation="horizontal" variant="middle" flexItem/>
+
+          {/* Date Picker 2 */}
+          <DatePicker
+            label={"To"}
+            value={selectedToDate}
+            onChange={handleToDateChange}
+            format={FORMAT}
+            slotProps={{
+              textField: {
+                onClick: () => setIsCalendarOpen(true),
+              },
+            }}
+            disableOpenPicker
+            minDate={selectedFromDate ?? undefined}
+          />
+        </Stack>
+
+        {/* Calendar */}
+        {isCalendarOpen && (
+          <Stack sx={{ position: "absolute", top: "100%", left: "50%", transform: "translateX(-50%)", zIndex: 999 }}>
+            {/* Semi-transparent overlay */}
+            <OfDateRangeCalendar
+              open={isCalendarOpen}
+              onClose={handleCalendarClose}
+              onChangeFromDate={handleFromDateChange}
+              onChangeToDate={handleToDateChange}
+            />
+          </Stack>
+        )}
+      </Stack>
+    </LocalizationProvider>
       </>
     );
   };
